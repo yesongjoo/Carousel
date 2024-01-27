@@ -78,9 +78,28 @@ body {
   grid-auto-columns: calc((100% / 3) - 12px);
   /*+,-,*,연산 앞 뒤로 띄어줘야함 중요!*/
   gap: 16px;
-  overflow: hidden;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /*scroll 중앙 정렬*/
+  scroll-behavior: smooth;
+  scrollbar-width: 0;
+  /*필요한가?? 아래에 -webkit-scrollbar와 중복되는거 아닌가?*/
 }
 
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+/*::-webkit-scrollbar안쓰고  overflow-x: auto;를 hidden으로 하면 되는 거 아닌가?*/
+
+.carousel.no-transition {
+  scroll-behavior: auto;
+}
+
+.carousel.dragging {
+  /* 같은 element에 추가되는 className은 띄우지 않고 붙여서 써줘야 css가 먹힌다. */
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
 /* .carousel :where(.card, .img) {
   display: flex;
   align-items: center;
@@ -90,10 +109,12 @@ body {
 
 .carousel.dragging .card {
   cursor: grab;
-  user-select: none;
+  user-select: none; /*drag 비활성화*/
 }
 
 .carousel .card {
+  scroll-snap-align: start;
+  /*  scroll-snap-type: x mandatory; 과 같이 사용해야함*/
   height: 342px;
   list-style: none;
   background-color: #fff;
